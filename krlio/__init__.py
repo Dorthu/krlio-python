@@ -1,23 +1,24 @@
 import requests
-from bs4 import BeautifulSoup
 
-krl_base = 'http://krl.io' # TODO api root?
+KRL_BASE = 'http://krl.io/v1/'
 
 class KrlExcpetion(Exception):
     pass
 
+def get_version():
+    r = requests.get(KRL_BASE + 'version')
+    if not r.status_code == 200:
+        return KrlException('Could not get version: {}'.format(r.staus_code))
+    return r.json()['version']
+
 def get_link(code):
-    r = requests.get('http://krl.io/{}'.format(code), allow_redirects=False)
-    if not r.status_code == 301:
-        raise KrlException('Link not found')
-    return r.headers['location']
+    r = requests.get(KRL_BASE+'link/{}'.format(code))
+    if not r.status_code == 200:
+        return KrlException('Link not found!')
+    return r.json()['url']
 
 def make_anon_link(url):
-    # simple - take what krl gave us
-    r = requests.post('http://krl.io/krl.php', data={"url":url})
-
+    r = requests.post(KRL_BASE+'link/{}'.format(url))
     if not r.status_code == 200:
-        raise KrlException('Could not create anon link!')
-
-    soup = BeautifulSoup(r.content, 'html.parser')
-    return soup.input['value']
+        return KrlException('Could not shorten link: {}'.format(r.status_code))
+    return r.json() # this is currenty not json, it's just a URL

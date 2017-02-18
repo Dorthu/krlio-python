@@ -22,6 +22,8 @@ python3 setup.py install
 
 *krlio.make_anon_link(url)* - shortens URL and returns the full krl.io shortlink
 
+*krlio.get_version()* - returns the API version we're talking to
+
 ## Limitations
 
 Currently does not support any authed requests.  All shortlinks are public and
