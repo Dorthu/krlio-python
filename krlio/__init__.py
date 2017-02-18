@@ -21,4 +21,4 @@ def make_anon_link(url):
     r = requests.post(KRL_BASE+'link/{}'.format(url))
     if not r.status_code == 200:
         return KrlException('Could not shorten link: {}'.format(r.status_code))
-    return r.json() # this is currenty not json, it's just a URL
+    return r.json()['url']
