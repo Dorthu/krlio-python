@@ -2,7 +2,7 @@ import requests
 
 KRL_BASE = 'http://krl.io/v1/'
 
-class KrlExcpetion(Exception):
+class KrlException(Exception):
     pass
 
 def get_version():
